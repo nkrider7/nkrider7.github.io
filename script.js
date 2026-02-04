@@ -40,13 +40,15 @@ const observerOptions = {
 const observer = new IntersectionObserver(function(entries) {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
             entry.target.classList.add('animate-fadeInLeft');
+            observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
 // Observe sections
-document.querySelectorAll('section').forEach(section => {
+document.querySelectorAll('.reveal').forEach(section => {
     observer.observe(section);
 });
 
