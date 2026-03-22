@@ -1,0 +1,272 @@
+
+````mdx
+export const meta = {
+  title: 'Rust Cheat Sheet',
+  description: 'Quick Rust reference for daily learning.',
+  order: 1,
+}
+
+# 🦀 Rust Cheat Sheet
+
+Simple, fast reference for Rust basics.
+
+---
+
+## 🧠 Variables
+
+```rust
+let x = 5;        // immutable
+let mut y = 10;  // mutable
+
+y = 20;
+````
+
+---
+
+## 🔤 Data Types
+
+```rust
+let a: i32 = 10;
+let b: f64 = 3.14;
+let c: bool = true;
+let d: char = 'R';
+```
+
+---
+
+## 📦 Tuples & Arrays
+
+```rust
+let tup: (i32, f64) = (10, 2.5);
+let arr = [1, 2, 3, 4];
+```
+
+Access:
+
+```rust
+let first = arr[0];
+let (x, y) = tup;
+```
+
+---
+
+## 🔁 Control Flow
+
+### if / else
+
+```rust
+let x = 5;
+
+if x > 3 {
+    println!("Big");
+} else {
+    println!("Small");
+}
+```
+
+### loop
+
+```rust
+loop {
+    println!("Infinite");
+    break;
+}
+```
+
+### while
+
+```rust
+let mut n = 3;
+
+while n > 0 {
+    n -= 1;
+}
+```
+
+### for
+
+```rust
+for i in 0..5 {
+    println!("{}", i);
+}
+```
+
+---
+
+## 🧩 Functions
+
+```rust
+fn add(a: i32, b: i32) -> i32 {
+    a + b
+}
+```
+
+---
+
+## 📚 Ownership (Core Concept)
+
+* Each value has **one owner**
+* Value is dropped when owner goes out of scope
+
+```rust
+let s = String::from("hello");
+let s2 = s; // moved, s is no longer valid
+```
+
+---
+
+## 🔄 Borrowing
+
+```rust
+fn print(s: &String) {
+    println!("{}", s);
+}
+
+let s = String::from("hi");
+print(&s); // borrow
+```
+
+Mutable borrow:
+
+```rust
+let mut s = String::from("hello");
+let r = &mut s;
+r.push_str(" world");
+```
+
+---
+
+## 📏 Slices
+
+```rust
+let s = String::from("hello");
+
+let slice = &s[0..2]; // "he"
+```
+
+---
+
+## 🧱 Structs
+
+```rust
+struct User {
+    name: String,
+    age: u32,
+}
+
+let user = User {
+    name: String::from("Asif"),
+    age: 21,
+};
+```
+
+---
+
+## 🧬 Enums
+
+```rust
+enum Direction {
+    Up,
+    Down,
+}
+
+let dir = Direction::Up;
+```
+
+---
+
+## 🎯 Match
+
+```rust
+let num = 2;
+
+match num {
+    1 => println!("One"),
+    2 => println!("Two"),
+    _ => println!("Other"),
+}
+```
+
+---
+
+## ⚠️ Option (No null in Rust)
+
+```rust
+let x: Option<i32> = Some(5);
+
+match x {
+    Some(v) => println!("{}", v),
+    None => println!("No value"),
+}
+```
+
+---
+
+## 🚨 Result (Error Handling)
+
+```rust
+fn divide(a: i32, b: i32) -> Result<i32, String> {
+    if b == 0 {
+        Err("Cannot divide".to_string())
+    } else {
+        Ok(a / b)
+    }
+}
+```
+
+---
+
+## 📥 Vectors
+
+```rust
+let mut v = vec![1, 2, 3];
+
+v.push(4);
+```
+
+---
+
+## 🔗 Strings
+
+```rust
+let mut s = String::from("Hello");
+
+s.push_str(" World");
+```
+
+---
+
+## 🧪 Useful Commands
+
+```bash
+cargo new my_app
+cargo run
+cargo build
+cargo check
+```
+
+---
+
+## ⚡ Quick Tips
+
+* Use `mut` only when needed
+* Prefer borrowing over cloning
+* Read compiler errors carefully (they are very helpful)
+* Ownership is the key to mastering Rust
+
+---
+
+## 📌 Summary
+
+Rust gives you:
+
+* Safety (no crashes)
+* Speed (like C++)
+* Control (memory without GC)
+
+---
+
+🚀 Keep practicing. Rust clicks after repetition.
+
+```
+```
