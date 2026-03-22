@@ -19,13 +19,23 @@ function parseLogDateFromSlug(slug: string): string | undefined {
 }
 
 function buildEntries(map: Record<string, MdxModule>): ContentEntry[] {
-  return Object.entries(map).map(([path, mod]) => {
+  return Object.entries(map).flatMap(([path, mod]) => {
     const slug = slugFromGlobPath(path)
-    return {
-      slug,
-      meta: mod.meta,
-      Component: mod.default,
+    if (!mod?.default || !mod.meta?.title) {
+      if (import.meta.env.DEV) {
+        console.warn(
+          `[content] Skipping "${path}": MDX must export const meta = { title: "..." } and a default component. Do not wrap the file in markdown code fences (\`\`\`).`,
+        )
+      }
+      return []
     }
+    return [
+      {
+        slug,
+        meta: mod.meta,
+        Component: mod.default,
+      },
+    ]
   })
 }
 
@@ -34,7 +44,7 @@ export const learningEntries: ContentEntry[] = buildEntries(learningRaw).sort(
     const oa = a.meta.order ?? 999
     const ob = b.meta.order ?? 999
     if (oa !== ob) return oa - ob
-    return a.meta.title.localeCompare(b.meta.title)
+    return (a.meta.title ?? '').localeCompare(b.meta.title ?? '')
   },
 )
 

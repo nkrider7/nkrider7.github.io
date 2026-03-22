@@ -1,29 +1,27 @@
-
-````mdx
 export const meta = {
   title: 'Rust Cheat Sheet',
   description: 'Quick Rust reference for daily learning.',
   order: 1,
 }
 
-# 🦀 Rust Cheat Sheet
+# Rust cheat sheet
 
 Simple, fast reference for Rust basics.
 
 ---
 
-## 🧠 Variables
+## Variables
 
 ```rust
 let x = 5;        // immutable
 let mut y = 10;  // mutable
 
 y = 20;
-````
+```
 
 ---
 
-## 🔤 Data Types
+## Data types
 
 ```rust
 let a: i32 = 10;
@@ -34,7 +32,7 @@ let d: char = 'R';
 
 ---
 
-## 📦 Tuples & Arrays
+## Tuples and arrays
 
 ```rust
 let tup: (i32, f64) = (10, 2.5);
@@ -50,7 +48,7 @@ let (x, y) = tup;
 
 ---
 
-## 🔁 Control Flow
+## Control flow
 
 ### if / else
 
@@ -93,7 +91,7 @@ for i in 0..5 {
 
 ---
 
-## 🧩 Functions
+## Functions
 
 ```rust
 fn add(a: i32, b: i32) -> i32 {
@@ -103,7 +101,7 @@ fn add(a: i32, b: i32) -> i32 {
 
 ---
 
-## 📚 Ownership (Core Concept)
+## Ownership (core concept)
 
 * Each value has **one owner**
 * Value is dropped when owner goes out of scope
@@ -115,7 +113,7 @@ let s2 = s; // moved, s is no longer valid
 
 ---
 
-## 🔄 Borrowing
+## Borrowing
 
 ```rust
 fn print(s: &String) {
@@ -136,7 +134,7 @@ r.push_str(" world");
 
 ---
 
-## 📏 Slices
+## Slices
 
 ```rust
 let s = String::from("hello");
@@ -146,7 +144,7 @@ let slice = &s[0..2]; // "he"
 
 ---
 
-## 🧱 Structs
+## Structs
 
 ```rust
 struct User {
@@ -162,7 +160,7 @@ let user = User {
 
 ---
 
-## 🧬 Enums
+## Enums
 
 ```rust
 enum Direction {
@@ -175,7 +173,7 @@ let dir = Direction::Up;
 
 ---
 
-## 🎯 Match
+## Match
 
 ```rust
 let num = 2;
@@ -189,7 +187,7 @@ match num {
 
 ---
 
-## ⚠️ Option (No null in Rust)
+## Option (no null in Rust)
 
 ```rust
 let x: Option<i32> = Some(5);
@@ -202,7 +200,7 @@ match x {
 
 ---
 
-## 🚨 Result (Error Handling)
+## Result (error handling)
 
 ```rust
 fn divide(a: i32, b: i32) -> Result<i32, String> {
@@ -216,7 +214,7 @@ fn divide(a: i32, b: i32) -> Result<i32, String> {
 
 ---
 
-## 📥 Vectors
+## Vectors
 
 ```rust
 let mut v = vec![1, 2, 3];
@@ -226,7 +224,7 @@ v.push(4);
 
 ---
 
-## 🔗 Strings
+## Strings
 
 ```rust
 let mut s = String::from("Hello");
@@ -236,7 +234,7 @@ s.push_str(" World");
 
 ---
 
-## 🧪 Useful Commands
+## Useful commands
 
 ```bash
 cargo new my_app
@@ -247,7 +245,7 @@ cargo check
 
 ---
 
-## ⚡ Quick Tips
+## Quick tips
 
 * Use `mut` only when needed
 * Prefer borrowing over cloning
@@ -256,7 +254,7 @@ cargo check
 
 ---
 
-## 📌 Summary
+## Summary
 
 Rust gives you:
 
@@ -266,7 +264,4 @@ Rust gives you:
 
 ---
 
-🚀 Keep practicing. Rust clicks after repetition.
-
-```
-```
+Keep practicing. Rust clicks after repetition.
