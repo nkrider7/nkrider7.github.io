@@ -1,31 +1,23 @@
 name: Add new content page
-description: Create a page by filling metadata and markdown body in this issue.
+description: Create a page by giving a title and content; workflow creates the file path automatically.
 title: "New page request: {page-title}"
 labels: [new-page]
 
-## 1) Page location
-Please set a unique target path inside `content/`:
+## 1) Page title
+Write the title in the issue title or in the body. For example:
 
-`page-path: content/learning/my-new-article.mdx`
+`New page request: Demo Page`
 
-## 2) Page title
-`page-title: My Article Title`
-
-## 3) Content section
+## 2) Content section
 Wrap the markdown content between markers.
 
 ```
 <!-- content -->
-Your Markdown or MDX content here.
+# Demo Page
+
+Write your page content here.
 <!-- /content -->
 ```
 
-> Example:
->
-> page-path: content/learning/rust-cheat.mdx
-> page-title: Rust Cheat Sheet
->
-> <!-- content -->
-> # Rust Cheat Sheet
-> ...
-> <!-- /content -->
+> Workflow creates: `content/learning/demo-page.mdx` (slug from the title).  If you want, you can include `'page-path: content/learning/custom-name.mdx'` manually, but it is not required.
+

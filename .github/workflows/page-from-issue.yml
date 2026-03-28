@@ -22,13 +22,30 @@ jobs:
         id: parse
         run: |
           BODY="${{ github.event.issue.body }}"
-          PAGE_PATH=$(printf "%s\n" "$BODY" | grep -m1 -Eo '^page-path:[[:space:]]*.*' | sed 's/^page-path:[[:space:]]*//')
-          PAGE_TITLE=$(printf "%s\n" "$BODY" | grep -m1 -Eo '^page-title:[[:space:]]*.*' | sed 's/^page-title:[[:space:]]*//')
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+
+          # get page title from the issue title if starts with "New page request:" or fallback to first non-empty line in body
+          PAGE_TITLE=$(echo "$ISSUE_TITLE" | sed -E 's/^[Nn]ew page request:\s*//')
+          if [ -z "$PAGE_TITLE" ]; then
+            PAGE_TITLE=$(printf "%s\n" "$BODY" | sed -n '/./{s/^\s*//;s/\s*$//;p;q}')
+          fi
+
           CONTENT=$(printf "%s\n" "$BODY" | awk '/^<!-- content -->/{flag=1; next}/^<!-- \/content -->/{flag=0} flag')
 
-          if [ -z "$PAGE_PATH" ] || [ -z "$PAGE_TITLE" ] || [ -z "$CONTENT" ]; then
-            echo "Missing page-path, page-title or content in issue body. Make sure you follow the template." >&2
+          if [ -z "$PAGE_TITLE" ] || [ -z "$CONTENT" ]; then
+            echo "Missing page title or content in issue. Make sure title and markers exist." >&2
             exit 1
+          fi
+
+          SLUG=$(echo "$PAGE_TITLE" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+|-+$//g')
+          if [ -z "$SLUG" ]; then
+            echo "Could not create a slug from page title." >&2
+            exit 1
+          fi
+
+          PAGE_PATH=$(printf "%s\n" "$BODY" | grep -m1 -Eo '^page-path:[[:space:]]*.*' | sed 's/^page-path:[[:space:]]*//')
+          if [ -z "$PAGE_PATH" ]; then
+            PAGE_PATH="content/learning/$SLUG.mdx"
           fi
 
           echo "page_path=$PAGE_PATH" >> $GITHUB_OUTPUT
