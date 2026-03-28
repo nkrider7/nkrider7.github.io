@@ -127,7 +127,7 @@ export function Sidebar() {
       />
       <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-50 flex w-56 flex-col border-r border-white/10 bg-surface-dark-deep text-gray-100 transition-transform lg:static lg:translate-x-0',
+          'fixed inset-y-0 left-0 z-50 flex min-h-0 w-56 flex-col border-r border-white/10 bg-surface-dark-deep text-gray-100 transition-transform lg:relative lg:z-auto lg:h-full lg:max-h-full lg:shrink-0 lg:translate-x-0',
           widthClass,
           mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full',
         )}
@@ -138,8 +138,11 @@ export function Sidebar() {
             sidebarCollapsed && 'lg:justify-center lg:px-2',
           )}
         >
-          {!sidebarCollapsed && (
-            <span className="truncate text-sm font-semibold tracking-tight">nkrider7</span>
+
+          {!sidebarCollapsed && (<>
+          <img src="/favicon.png" alt="Narendra" className="h-5 w-5 rounded-full mr-2" />
+            <span className="truncate text-sm font-semibold tracking-tight">nkrider7 space</span>
+          </>
           )}
           <button
             type="button"
@@ -162,7 +165,7 @@ export function Sidebar() {
           </button>
         </div>
 
-        <nav className="flex-1 space-y-1 overflow-y-auto p-2">
+        <nav className="min-h-0 flex-1 space-y-1 overflow-y-auto overflow-x-hidden p-2">
           <p
             className={cn(
               'px-3 pb-1 text-xs font-semibold uppercase tracking-wider text-gray-500',

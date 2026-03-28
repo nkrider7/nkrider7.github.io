@@ -48,7 +48,7 @@ export function Topbar() {
   const setMobileSidebarOpen = useUiStore((s) => s.setMobileSidebarOpen)
 
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between gap-4 border-b border-gray-200 bg-white/90 px-4 backdrop-blur dark:border-white/10 dark:bg-surface-dark-raised/95 dark:backdrop-blur-sm lg:px-6">
+    <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center justify-between gap-4 border-b border-gray-200 bg-white/90 px-4 backdrop-blur dark:border-white/10 dark:bg-surface-dark-raised/95 dark:backdrop-blur-sm lg:px-6">
       <button
         type="button"
         className="rounded-lg p-2 text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/10 lg:hidden"

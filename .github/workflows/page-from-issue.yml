@@ -1,0 +1,71 @@
+name: Create page from issue
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  generate-page:
+    name: Generate page file and open PR
+    runs-on: ubuntu-latest
+    if: contains(join(github.event.issue.labels.*.name), 'new-page')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Parse issue fields
+        id: parse
+        run: |
+          BODY="${{ github.event.issue.body }}"
+          PAGE_PATH=$(printf "%s\n" "$BODY" | grep -m1 -Eo '^page-path:[[:space:]]*.*' | sed 's/^page-path:[[:space:]]*//')
+          PAGE_TITLE=$(printf "%s\n" "$BODY" | grep -m1 -Eo '^page-title:[[:space:]]*.*' | sed 's/^page-title:[[:space:]]*//')
+          CONTENT=$(printf "%s\n" "$BODY" | awk '/^<!-- content -->/{flag=1; next}/^<!-- \/content -->/{flag=0} flag')
+
+          if [ -z "$PAGE_PATH" ] || [ -z "$PAGE_TITLE" ] || [ -z "$CONTENT" ]; then
+            echo "Missing page-path, page-title or content in issue body. Make sure you follow the template." >&2
+            exit 1
+          fi
+
+          echo "page_path=$PAGE_PATH" >> $GITHUB_OUTPUT
+          echo "page_title=$PAGE_TITLE" >> $GITHUB_OUTPUT
+          echo "content=$CONTENT" >> $GITHUB_OUTPUT
+
+      - name: Create content directory
+        run: |
+          TARGET=$(dirname "${{ steps.parse.outputs.page_path }}")
+          mkdir -p "$TARGET"
+
+      - name: Create page file from issue
+        id: create
+        run: |
+          TARGET="${{ steps.parse.outputs.page_path }}"
+          if [ -f "$TARGET" ]; then
+            echo "Page already exists: $TARGET" && exit 0
+          fi
+
+          cat > "$TARGET" <<EOF
+---
+title: "${{ steps.parse.outputs.page_title }}"
+---
+
+${{ steps.parse.outputs.content }}
+EOF
+          echo "created=true" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request (new branch)
+        if: steps.create.outputs.created == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: add page from issue #${{ github.event.issue.number }}"
+          title: "Add page from issue #${{ github.event.issue.number }}"
+          body: |
+            This PR adds a new content page as requested by issue #${{ github.event.issue.number }}.
+            
+            - path: `${{ steps.parse.outputs.page_path }}`
+            - title: `${{ steps.parse.outputs.page_title }}`
+
+          branch: "issue-${{ github.event.issue.number }}-new-page"
+          base: main
+          labels: from-issue
