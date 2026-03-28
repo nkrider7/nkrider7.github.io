@@ -24,16 +24,30 @@ jobs:
           BODY="${{ github.event.issue.body }}"
           ISSUE_TITLE="${{ github.event.issue.title }}"
 
-          # get page title from the issue title if starts with "New page request:" or fallback to first non-empty line in body
+          # get page title from the issue title if starts with "New page request:" or fallback to issue title / first non-empty line in body
           PAGE_TITLE=$(echo "$ISSUE_TITLE" | sed -E 's/^[Nn]ew page request:\s*//')
+          if [ -z "$PAGE_TITLE" ]; then
+            PAGE_TITLE="$ISSUE_TITLE"
+          fi
+          PAGE_TITLE=$(echo "$PAGE_TITLE" | sed -E 's/^\s*//;s/\s*$//')
+
+          # support optional explicit page-title in issue body
+          BODY_PAGE_TITLE=$(printf "%s\n" "$BODY" | grep -m1 -Eo '^page-title:[[:space:]]*.*' | sed 's/^page-title:[[:space:]]*//')
+          if [ -n "$BODY_PAGE_TITLE" ]; then
+            PAGE_TITLE="$BODY_PAGE_TITLE"
+          fi
+
           if [ -z "$PAGE_TITLE" ]; then
             PAGE_TITLE=$(printf "%s\n" "$BODY" | sed -n '/./{s/^\s*//;s/\s*$//;p;q}')
           fi
 
           CONTENT=$(printf "%s\n" "$BODY" | awk '/^<!-- content -->/{flag=1; next}/^<!-- \/content -->/{flag=0} flag')
 
+          echo "page_title='$PAGE_TITLE'"
+          echo "content length=${#CONTENT}"
+
           if [ -z "$PAGE_TITLE" ] || [ -z "$CONTENT" ]; then
-            echo "Missing page title or content in issue. Make sure title and markers exist." >&2
+            echo "Missing page title or content in issue. Make sure title/markers exist. Got title='$PAGE_TITLE' content-length='${#CONTENT}'" >&2
             exit 1
           fi
 
