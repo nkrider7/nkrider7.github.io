@@ -1,5 +1,9 @@
 name: Create page from issue
 
+permissions:
+  contents: write
+  pull-requests: write
+
 on:
   issues:
     types: [opened, edited]
