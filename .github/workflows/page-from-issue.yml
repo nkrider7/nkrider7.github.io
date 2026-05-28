@@ -41,7 +41,14 @@ jobs:
             PAGE_TITLE=$(printf "%s\n" "$BODY" | sed -n '/./{s/^\s*//;s/\s*$//;p;q}')
           fi
 
+          # parse markdown content between content markers
           CONTENT=$(printf "%s\n" "$BODY" | awk '/^<!-- content -->/{flag=1; next}/^<!-- \/content -->/{flag=0} flag')
+
+          # fallback: if no markers, use whole body minus explicit metadata lines
+          if [ -z "$CONTENT" ]; then
+            CONTENT=$(printf "%s\n" "$BODY" | sed -E '/^page-path:/Id;/^page-title:/Id')
+            CONTENT=$(echo "$CONTENT" | sed -E 's/^\s+//;s/\s+$//')
+          fi
 
           echo "page_title='$PAGE_TITLE'"
           echo "content length=${#CONTENT}"
@@ -62,9 +69,13 @@ jobs:
             PAGE_PATH="content/learning/$SLUG.mdx"
           fi
 
-          echo "page_path=$PAGE_PATH" >> $GITHUB_OUTPUT
-          echo "page_title=$PAGE_TITLE" >> $GITHUB_OUTPUT
-          echo "content=$CONTENT" >> $GITHUB_OUTPUT
+          {
+            echo "page_path=$PAGE_PATH"
+            echo "page_title=$PAGE_TITLE"
+            echo "content<<__CONTENT__"
+            printf "%s\n" "$CONTENT"
+            echo "__CONTENT__"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Create content directory
         run: |
@@ -73,20 +84,49 @@ jobs:
 
       - name: Create page file from issue
         id: create
+        env:
+          TARGET: ${{ steps.parse.outputs.page_path }}
+          PAGE_TITLE: ${{ steps.parse.outputs.page_title }}
+          CONTENT: ${{ steps.parse.outputs.content }}
         run: |
-          TARGET="${{ steps.parse.outputs.page_path }}"
           if [ -f "$TARGET" ]; then
             echo "Page already exists: $TARGET" && exit 0
           fi
 
-          cat > "$TARGET" <<EOF
----
-title: "${{ steps.parse.outputs.page_title }}"
----
+          python <<'PY'
+          from pathlib import Path
+          import json
+          import os
+          import re
 
-${{ steps.parse.outputs.content }}
-EOF
-          echo "created=true" >> $GITHUB_OUTPUT
+          target = Path(os.environ["TARGET"])
+          title = os.environ["PAGE_TITLE"].strip()
+          content = os.environ["CONTENT"].strip()
+
+          if "export const meta" in content:
+              output = f"{content}\n"
+          elif str(target).startswith("content/logs/"):
+              date_match = re.search(r"(\d{4}-\d{2}-\d{2})", str(target))
+              log_date = date_match.group(1) if date_match else target.stem
+              output = (
+                  "export const meta = {\n"
+                  f"  title: {json.dumps(title)},\n"
+                  f"  description: {json.dumps(f'Daily log for {log_date}.')},\n"
+                  f"  date: {json.dumps(log_date)},\n"
+                  "}\n\n"
+                  f"{content}\n"
+              )
+          else:
+              output = (
+                  "export const meta = {\n"
+                  f"  title: {json.dumps(title)},\n"
+                  "}\n\n"
+                  f"{content}\n"
+              )
+
+          target.write_text(output, encoding="utf-8")
+          PY
+          echo "created=true" >> "$GITHUB_OUTPUT"
 
       - name: Create Pull Request (new branch)
         if: steps.create.outputs.created == 'true'
