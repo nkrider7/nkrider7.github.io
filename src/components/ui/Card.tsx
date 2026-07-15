@@ -4,17 +4,35 @@ type CardProps = {
   children: ReactNode
   className?: string
   padding?: boolean
+  tone?: 'snow' | 'subtle' | 'dark' | 'deep'
 } & HTMLAttributes<HTMLDivElement>
+
+const tones = {
+  snow: 'border-cloud bg-snow',
+  subtle: 'border-cloud bg-surface-subtle',
+  dark: 'border-transparent bg-surface-dark text-snow',
+  deep: 'border-transparent bg-ink-slate text-snow',
+}
+
+function cn(...parts: (string | false | undefined)[]) {
+  return parts.filter(Boolean).join(' ')
+}
 
 export function Card({
   children,
   className = '',
   padding = true,
+  tone = 'snow',
   ...rest
 }: CardProps) {
   return (
     <div
-      className={`rounded-xl border border-gray-200/80 bg-white shadow-sm dark:border-white/10 dark:bg-surface-dark-raised ${padding ? 'p-6' : ''} ${className}`}
+      className={cn(
+        'rounded-card border transition duration-200',
+        tones[tone],
+        padding && 'p-7',
+        className,
+      )}
       {...rest}
     >
       {children}

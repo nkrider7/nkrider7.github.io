@@ -1,14 +1,31 @@
 import type { ReactNode } from 'react'
 
+type BadgeVariant = 'outline' | 'filled' | 'ember'
+
 type BadgeProps = {
   children: ReactNode
   className?: string
+  variant?: BadgeVariant
 }
 
-export function Badge({ children, className = '' }: BadgeProps) {
+const variants: Record<BadgeVariant, string> = {
+  outline: 'border border-cloud bg-transparent text-graphite',
+  filled: 'border border-transparent bg-iron text-[#fafafa]',
+  ember: 'border border-transparent bg-ember text-snow',
+}
+
+function cn(...parts: (string | false | undefined)[]) {
+  return parts.filter(Boolean).join(' ')
+}
+
+export function Badge({ children, className = '', variant = 'outline' }: BadgeProps) {
   return (
     <span
-      className={`inline-flex items-center rounded-md bg-violet-100 px-2 py-0.5 text-xs font-medium text-violet-800 dark:bg-violet-950/60 dark:text-violet-200 ${className}`}
+      className={cn(
+        'inline-flex items-center rounded-badge px-2 py-1 text-[12px] font-normal leading-none',
+        variants[variant],
+        className,
+      )}
     >
       {children}
     </span>

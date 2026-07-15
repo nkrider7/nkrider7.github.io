@@ -3,47 +3,101 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --color-obsidian: #09090b;
+    --color-graphite: #18181b;
+    --color-slate: #27272a;
+    --color-iron: #3f3f46;
+    --color-steel: #52525b;
+    --color-fog: #71717a;
+    --color-ash: #a1a1aa;
+    --color-mist: #d4d4d8;
+    --color-cloud: #ececee;
+    --color-paper: #f4f4f5;
+    --color-snow: #ffffff;
+    --color-ember: #ff5a00;
+    --color-magenta-spark: #fe45e2;
+    --radius-cards: 36px;
+    --radius-buttons: 14px;
+    --radius-badges: 12px;
+    --radius-pills: 10000px;
+    --page-max-width: 1200px;
+    --section-gap: 80px;
+    --card-padding: 28px;
+  }
+
   html {
     @apply antialiased;
     height: 100%;
   }
+
   body {
-    @apply bg-surface text-gray-900 dark:bg-surface-dark dark:text-gray-100;
+    @apply bg-paper font-sans text-body text-graphite;
     height: 100%;
     overflow: hidden;
   }
+
   #root {
     height: 100%;
     min-height: 0;
   }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-ember) 22%, transparent);
+    color: var(--color-obsidian);
+  }
 }
 
-/* Scrollbars — dark theme (class on <html>) */
-html.dark {
-  scrollbar-color: #4a4a4a #202020;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Scrollbars — light editorial */
+html {
+  scrollbar-color: #a1a1aa #f4f4f5;
   scrollbar-width: thin;
 }
 
-html.dark *::-webkit-scrollbar {
+*::-webkit-scrollbar {
   width: 9px;
   height: 9px;
 }
 
-html.dark *::-webkit-scrollbar-track {
-  background: #202020;
+*::-webkit-scrollbar-track {
+  background: #f4f4f5;
   border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 9999px;
+  border: 2px solid #f4f4f5;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
+}
+
+html.dark {
+  scrollbar-color: #52525b #18181b;
+}
+
+html.dark body {
+  @apply bg-surface-dark text-cloud;
+}
+
+html.dark *::-webkit-scrollbar-track {
+  background: #18181b;
+  border: 2px solid #18181b;
 }
 
 html.dark *::-webkit-scrollbar-thumb {
-  background: #4a4a4a;
-  border-radius: 9999px;
-  border: 2px solid #202020;
+  background: #3f3f46;
+  border-color: #18181b;
 }
 
 html.dark *::-webkit-scrollbar-thumb:hover {
-  background: #6b6b6b;
-}
-
-html.dark *::-webkit-scrollbar-corner {
-  background: #202020;
+  background: #52525b;
 }

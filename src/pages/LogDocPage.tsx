@@ -10,9 +10,12 @@ export function LogDocPage() {
   if (!entry) {
     return (
       <Card>
-        <h1 className="text-xl font-semibold text-gray-900 dark:text-white">Not found</h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">No log entry matches this URL.</p>
-        <Link to="/calendar" className="mt-4 inline-block text-sm font-medium text-violet-600 dark:text-violet-400">
+        <h1 className="text-xl font-semibold text-obsidian dark:text-snow">Not found</h1>
+        <p className="mt-2 text-steel">No log entry matches this URL.</p>
+        <Link
+          to="/calendar"
+          className="mt-4 inline-block text-[14px] font-medium text-obsidian dark:text-snow"
+        >
           ← Back to calendar
         </Link>
       </Card>

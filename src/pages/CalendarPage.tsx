@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react'
 import { logsGroupedByDate } from '@/content/registry'
+import { Badge } from '@/components/ui/Badge'
+import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Link } from 'react-router-dom'
 
@@ -120,100 +122,69 @@ export function CalendarPage() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="overflow-hidden rounded-3xl border border-violet-200/70 bg-gradient-to-br from-violet-50 via-white to-fuchsia-50 p-6 shadow-sm dark:border-violet-500/20 dark:from-violet-950/40 dark:via-surface-dark dark:to-fuchsia-950/20">
+    <div className="space-y-8 pb-8">
+      <div className="overflow-hidden rounded-card border border-cloud bg-snow p-7 dark:border-white/10 dark:bg-surface-dark">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p className="text-sm font-medium text-violet-600 dark:text-violet-400">
-              Learning timeline
-            </p>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <div className="space-y-3">
+            <Badge variant="ember">Timeline</Badge>
+            <h1 className="text-heading-sm font-semibold text-obsidian dark:text-snow sm:text-heading">
               Interactive Calendar
             </h1>
-            <p className="mt-2 max-w-2xl text-sm text-gray-600 dark:text-gray-400">
-              Browse MDX logs by month, jump between days, and open entries from the selected
-              date.
+            <p className="max-w-2xl text-[15px] text-steel">
+              Browse MDX logs by month, jump between days, and open entries from the selected date.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            <div className="rounded-2xl border border-white/70 bg-white/75 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{dates.length}</p>
-              <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Log days</p>
-            </div>
-            <div className="rounded-2xl border border-white/70 bg-white/75 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                {activeMonthEntries}
-              </p>
-              <p className="text-xs font-medium text-gray-500 dark:text-gray-400">This month</p>
-            </div>
-            <div className="col-span-2 rounded-2xl border border-white/70 bg-white/75 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5 sm:col-span-1">
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                {selectedEntries.length}
-              </p>
-              <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Selected</p>
-            </div>
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-3">
+            <StatMini number={dates.length} label="Log days" />
+            <StatMini number={activeMonthEntries} label="This month" />
+            <StatMini
+              number={selectedEntries.length}
+              label="Selected"
+              className="col-span-2 sm:col-span-1"
+            />
           </div>
         </div>
       </div>
 
       {dates.length === 0 ? (
         <Card className="text-center">
-          <p className="font-medium text-gray-900 dark:text-white">No log entries yet</p>
-          <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+          <p className="font-medium text-obsidian dark:text-snow">No log entries yet</p>
+          <p className="mt-1 text-[14px] text-steel">
             Add <code>.mdx</code> files under <code>content/logs</code> to light up the calendar.
           </p>
-          <a
-            href={logRequestUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-5 inline-flex items-center justify-center rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-violet-700"
-          >
+          <Button href={logRequestUrl} variant="primary" className="mt-5">
             Add today&apos;s log on GitHub
-          </a>
+          </Button>
         </Card>
       ) : (
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_24rem]">
-          <Card className="overflow-hidden p-0">
-            <div className="flex flex-col gap-4 border-b border-gray-200/80 bg-gray-50/80 p-4 dark:border-white/10 dark:bg-surface-dark sm:flex-row sm:items-center sm:justify-between">
+        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
+          <Card className="overflow-hidden !p-0">
+            <div className="flex flex-col gap-4 border-b border-cloud bg-paper/80 p-5 dark:border-white/10 dark:bg-ink-slate/50 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-sm font-medium text-violet-600 dark:text-violet-400">
+                <p className="text-[14px] font-semibold text-obsidian dark:text-snow">
                   {monthLabel(visibleMonth)}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Pick any glowing day to view logs
-                </p>
+                <p className="text-[12px] text-fog">Pick any marked day to view logs</p>
               </div>
               <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={() => moveMonth(-1)}
-                  className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-white/10 dark:bg-surface-dark-raised dark:text-gray-200 dark:hover:border-violet-500 dark:hover:text-violet-300"
-                >
+                <Button type="button" variant="secondary" className="!py-2" onClick={() => moveMonth(-1)}>
                   Prev
-                </button>
-                <button
-                  type="button"
-                  onClick={jumpToToday}
-                  className="rounded-lg bg-violet-600 px-3 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-violet-700"
-                >
+                </Button>
+                <Button type="button" variant="primary" className="!py-2" onClick={jumpToToday}>
                   Today
-                </button>
-                <button
-                  type="button"
-                  onClick={() => moveMonth(1)}
-                  className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 transition hover:border-violet-300 hover:text-violet-700 dark:border-white/10 dark:bg-surface-dark-raised dark:text-gray-200 dark:hover:border-violet-500 dark:hover:text-violet-300"
-                >
+                </Button>
+                <Button type="button" variant="secondary" className="!py-2" onClick={() => moveMonth(1)}>
                   Next
-                </button>
+                </Button>
               </div>
             </div>
 
-            <div className="grid grid-cols-7 gap-px bg-gray-200/80 p-px dark:bg-white/10">
+            <div className="grid grid-cols-7 gap-px bg-cloud p-px dark:bg-white/10">
               {weekdayLabels.map((day) => (
                 <div
                   key={day}
-                  className="bg-white px-2 py-3 text-center text-xs font-semibold uppercase tracking-wide text-gray-500 dark:bg-surface-dark-raised dark:text-gray-400"
+                  className="bg-snow px-2 py-3 text-center text-[11px] font-medium uppercase tracking-wide text-fog dark:bg-surface-dark"
                 >
                   {day}
                 </div>
@@ -230,17 +201,17 @@ export function CalendarPage() {
                     type="button"
                     onClick={() => setSelectedDate(day.key)}
                     aria-label={`Select ${day.key}`}
-                    className={`group relative min-h-24 bg-white p-2 text-left transition hover:z-10 hover:scale-[1.02] hover:bg-violet-50 focus:z-10 focus:outline-none focus:ring-2 focus:ring-violet-500 dark:bg-surface-dark-raised dark:hover:bg-violet-950/30 sm:min-h-28 ${
-                      !day.isCurrentMonth ? 'text-gray-300 dark:text-gray-600' : ''
-                    } ${isSelected ? 'z-10 bg-violet-50 ring-2 ring-violet-500 dark:bg-violet-950/40' : ''}`}
+                    className={`group relative min-h-24 bg-snow p-2 text-left transition hover:z-10 hover:bg-paper focus:z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-obsidian dark:bg-surface-dark dark:hover:bg-ink-slate sm:min-h-28 ${
+                      !day.isCurrentMonth ? 'text-ash' : ''
+                    } ${isSelected ? 'z-10 bg-paper ring-2 ring-obsidian dark:bg-ink-slate' : ''}`}
                   >
                     <span
-                      className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ${
+                      className={`flex h-8 w-8 items-center justify-center rounded-full text-[14px] font-semibold ${
                         day.isToday
-                          ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
+                          ? 'bg-obsidian text-snow'
                           : day.isCurrentMonth
-                            ? 'text-gray-800 dark:text-gray-100'
-                            : 'text-gray-400 dark:text-gray-600'
+                            ? 'text-graphite dark:text-cloud'
+                            : 'text-ash'
                       }`}
                     >
                       {day.date.getDate()}
@@ -248,14 +219,14 @@ export function CalendarPage() {
 
                     {hasEntries ? (
                       <div className="mt-3 space-y-1">
-                        <span className="inline-flex rounded-full bg-violet-100 px-2 py-0.5 text-[11px] font-semibold text-violet-700 dark:bg-violet-950/70 dark:text-violet-200">
+                        <Badge variant="filled">
                           {entries.length} log{entries.length > 1 ? 's' : ''}
-                        </span>
+                        </Badge>
                         <div className="flex gap-1">
                           {entries.slice(0, 3).map((entry) => (
                             <span
                               key={entry.slug}
-                              className="h-1.5 w-1.5 rounded-full bg-violet-500 shadow-[0_0_10px_rgba(139,92,246,0.75)]"
+                              className="h-1.5 w-1.5 rounded-full bg-ember"
                             />
                           ))}
                         </div>
@@ -268,34 +239,26 @@ export function CalendarPage() {
           </Card>
 
           <aside className="space-y-4">
-            <Card className="relative overflow-hidden">
-              <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-violet-500/10 blur-2xl" />
-              <p className="text-sm font-medium text-violet-600 dark:text-violet-400">
-                Selected date
-              </p>
-              <h2 className="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
+            <Card tone="deep" className="!p-6">
+              <p className="text-[13px] text-ash">Selected date</p>
+              <h2 className="mt-2 text-[28px] font-semibold leading-tight text-snow">
                 {dateFromKey(selectedDate).toLocaleDateString(undefined, {
                   day: 'numeric',
                   month: 'long',
                   year: 'numeric',
                 })}
               </h2>
-              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              <p className="mt-2 text-[14px] text-mist">
                 {selectedEntries.length > 0
                   ? `${selectedEntries.length} log entry found for this day.`
                   : 'No log entry on this day yet.'}
               </p>
-              <a
-                href={logRequestUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-violet-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-violet-700"
-              >
+              <Button href={logRequestUrl} variant="pill" className="mt-5 w-full !border-snow/20 !bg-snow !text-obsidian">
                 Add log request
-              </a>
-              <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+              </Button>
+              <p className="mt-3 text-[12px] text-ash">
                 Opens GitHub with a prefilled request for{' '}
-                <code>content/logs/{selectedDate}.mdx</code>.
+                <code className="text-mist">content/logs/{selectedDate}.mdx</code>.
               </p>
             </Card>
 
@@ -305,25 +268,21 @@ export function CalendarPage() {
                   <Link
                     key={entry.slug}
                     to={`/logs/${entry.slug}`}
-                    className="group block rounded-xl outline-none ring-violet-500 focus-visible:ring-2"
+                    className="group block rounded-card outline-none focus-visible:ring-2 focus-visible:ring-obsidian focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                   >
-                    <Card className="transition hover:-translate-y-0.5 hover:border-violet-400/60 hover:shadow-md dark:hover:border-violet-600/50">
-                      <p className="font-semibold text-gray-900 transition group-hover:text-violet-700 dark:text-white dark:group-hover:text-violet-300">
-                        {entry.meta.title}
-                      </p>
+                    <Card className="transition duration-300 group-hover:-translate-y-0.5 group-hover:border-mist">
+                      <p className="font-semibold text-obsidian dark:text-snow">{entry.meta.title}</p>
                       {entry.meta.description ? (
-                        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                          {entry.meta.description}
-                        </p>
+                        <p className="mt-2 text-[14px] text-steel">{entry.meta.description}</p>
                       ) : null}
-                      <p className="mt-4 text-xs font-semibold text-violet-600 dark:text-violet-400">
+                      <p className="mt-4 text-[13px] font-medium text-obsidian transition group-hover:translate-x-0.5 dark:text-snow">
                         Open log →
                       </p>
                     </Card>
                   </Link>
                 ))
               ) : (
-                <Card className="border-dashed text-sm text-gray-600 dark:text-gray-400">
+                <Card className="border-dashed text-[14px] text-steel">
                   Select a highlighted day, or add a new MDX log for this date.
                 </Card>
               )}
@@ -331,6 +290,25 @@ export function CalendarPage() {
           </aside>
         </div>
       )}
+    </div>
+  )
+}
+
+function StatMini({
+  number,
+  label,
+  className = '',
+}: {
+  number: number
+  label: string
+  className?: string
+}) {
+  return (
+    <div className={`flex items-baseline gap-2 ${className}`}>
+      <span className="text-[32px] font-semibold leading-none text-obsidian dark:text-snow">
+        {number}
+      </span>
+      <span className="text-[13px] text-steel">{label}</span>
     </div>
   )
 }
