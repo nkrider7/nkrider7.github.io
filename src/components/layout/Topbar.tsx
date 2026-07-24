@@ -62,14 +62,30 @@ export function Topbar() {
 
       <NavLink
         to="/"
-        className="flex items-center gap-2.5 lg:hidden"
+        className="flex min-w-0 items-center gap-3"
         onClick={() => setMobileSidebarOpen(false)}
       >
-        <img src="/favicon.png" alt="" className="h-7 w-7 rounded-[10px] object-cover" />
-        <span className="text-[14px] font-semibold text-obsidian dark:text-snow">Narendra</span>
+        <img
+          src="/skull.png"
+          alt=""
+          width={40}
+          height={40}
+          className="h-10 w-10 block md:hidden shrink-0 object-contain [image-rendering:pixelated]"
+          draggable={false}
+        />
+        <div className="flex block md:hidden  min-w-0 flex-col justify-center gap-1">
+          <span className="truncate text-[14px] font-bold leading-none tracking-tight text-obsidian dark:text-snow sm:text-[15px]">
+            Narendra Nishad
+          </span>
+          <span className="flex items-center gap-1.5 text-[12px] leading-none text-fog">
+            <span className="relative inline-flex h-1.5 w-1.5 shrink-0">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-45" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            </span>
+            Available for work
+          </span>
+        </div>
       </NavLink>
-
-      <div className="hidden flex-1 lg:block" />
 
       <div className="ml-auto flex items-center gap-2">
         <button

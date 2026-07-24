@@ -141,50 +141,69 @@ export function Sidebar() {
         <div
           className={cn(
             'flex h-16 items-center gap-2.5 border-b border-cloud px-4 dark:border-white/10',
-            sidebarCollapsed && 'lg:justify-center lg:px-2',
+            sidebarCollapsed && 'lg:justify-center lg:px-0',
           )}
         >
-          {!sidebarCollapsed && (
-            <NavLink
-              to="/"
-              className="flex min-w-0 items-center gap-2.5"
-              onClick={() => setMobileSidebarOpen(false)}
+          {sidebarCollapsed ? (
+            <button
+              type="button"
+              className="hidden h-11 w-11 items-center justify-center rounded-[14px] transition hover:bg-paper dark:hover:bg-ink-slate lg:inline-flex"
+              aria-label="Expand sidebar"
+              title="Expand sidebar"
+              onClick={() => setSidebarCollapsed(false)}
             >
-              <img src="/favicon.png" alt="" className="h-8 w-8 rounded-[12px] object-cover" />
-              <div className="min-w-0">
-                <p className="truncate text-[14px] font-semibold text-obsidian dark:text-snow">
-                  Narendra
-                </p>
-                <p className="truncate text-[12px] text-fog">nkrider7 space</p>
-              </div>
-            </NavLink>
+              <img
+                src="/skull.png"
+                alt=""
+                width={36}
+                height={36}
+                className="h-9 w-9 object-contain [image-rendering:pixelated]"
+                draggable={false}
+              />
+            </button>
+          ) : (
+            <>
+              <NavLink
+                to="/"
+                className="flex min-w-0 flex-1 items-center gap-2.5"
+                onClick={() => setMobileSidebarOpen(false)}
+              >
+                <img
+                  src="/skull.png"
+                  alt=""
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 shrink-0 object-contain [image-rendering:pixelated]"
+                  draggable={false}
+                />
+                <div className="min-w-0">
+                  <p className="truncate text-[14px] font-semibold text-obsidian dark:text-snow">
+                    Narendra
+                  </p>
+                  <p className="mt-0.5 flex items-center gap-1.5 truncate text-[12px] leading-none text-fog">
+                    <span className="inline-flex h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+                    Available for work
+                  </p>
+                </div>
+              </NavLink>
+              <button
+                type="button"
+                className="hidden rounded-button p-2 text-fog transition hover:bg-paper hover:text-obsidian dark:hover:bg-ink-slate dark:hover:text-snow lg:inline-flex"
+                aria-label="Collapse sidebar"
+                onClick={() => setSidebarCollapsed(true)}
+              >
+                <CollapseIcon className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                className="rounded-button p-2 text-fog hover:bg-paper lg:hidden"
+                aria-label="Close sidebar"
+                onClick={() => setMobileSidebarOpen(false)}
+              >
+                <span className="text-lg leading-none">×</span>
+              </button>
+            </>
           )}
-          {sidebarCollapsed && (
-            <img
-              src="/favicon.png"
-              alt=""
-              className="hidden h-8 w-8 rounded-[12px] object-cover lg:block"
-            />
-          )}
-          <button
-            type="button"
-            className={cn(
-              'ml-auto hidden rounded-button p-2 text-fog transition hover:bg-paper hover:text-obsidian dark:hover:bg-ink-slate dark:hover:text-snow lg:inline-flex',
-              sidebarCollapsed && 'ml-0',
-            )}
-            aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-          >
-            <CollapseIcon className="h-4 w-4" />
-          </button>
-          <button
-            type="button"
-            className="ml-auto rounded-button p-2 text-fog hover:bg-paper lg:hidden"
-            aria-label="Close sidebar"
-            onClick={() => setMobileSidebarOpen(false)}
-          >
-            <span className="text-lg leading-none">×</span>
-          </button>
         </div>
 
         <nav className="min-h-0 flex-1 space-y-1 overflow-y-auto overflow-x-hidden p-3">

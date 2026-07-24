@@ -44,6 +44,8 @@ export default {
           'Roboto',
           'sans-serif',
         ],
+        marker: ['Permanent Marker', 'Caveat', 'cursive'],
+        handwritten: ['Caveat', 'cursive'],
       },
       fontSize: {
         caption: ['12px', { lineHeight: '1.64' }],
@@ -90,11 +92,26 @@ export default {
           '0%': { opacity: '1', transform: 'translateY(0)' },
           '100%': { opacity: '0', transform: 'translateY(-40%)' },
         },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        'float-slow': {
+          '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+          '50%': { transform: 'translateY(-6px) rotate(1.5deg)' },
+        },
+        'pulse-soft': {
+          '0%, 100%': { opacity: '0.55', transform: 'scale(1)' },
+          '50%': { opacity: '0.85', transform: 'scale(1.04)' },
+        },
       },
       animation: {
         'fade-up': 'fade-up 0.6s ease-out both',
         'keyword-in': 'keyword-in 0.45s ease-out both',
         'keyword-out': 'keyword-out 0.3s ease-in both',
+        float: 'float 4.5s ease-in-out infinite',
+        'float-slow': 'float-slow 6s ease-in-out infinite',
+        'pulse-soft': 'pulse-soft 5s ease-in-out infinite',
       },
     },
   },
