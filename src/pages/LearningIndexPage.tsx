@@ -11,9 +11,9 @@ export function LearningIndexPage() {
         <h1 className="text-heading-sm font-semibold text-obsidian dark:text-snow sm:text-heading">
           My Learning
         </h1>
-        <p className="max-w-2xl text-[15px] text-steel">
+        <p className="max-w-2xl text-[15px] text-steel dark:text-ash">
           Notes are loaded from{' '}
-          <code className="rounded-badge bg-paper px-1.5 py-0.5 text-[13px] dark:bg-ink-slate">
+          <code className="rounded-badge bg-paper px-1.5 py-0.5 text-[13px] dark:bg-ink-slate dark:text-cloud">
             content/learning/*.mdx
           </code>
           .
@@ -25,14 +25,14 @@ export function LearningIndexPage() {
           <Link
             key={entry.slug}
             to={`/learning/${entry.slug}`}
-            className="group block rounded-card outline-none focus-visible:ring-2 focus-visible:ring-obsidian focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            className="group block rounded-card outline-none focus-visible:ring-2 focus-visible:ring-obsidian focus-visible:ring-offset-2 focus-visible:ring-offset-paper dark:focus-visible:ring-snow dark:focus-visible:ring-offset-surface-dark"
           >
-            <Card className="h-full transition duration-300 group-hover:-translate-y-0.5 group-hover:border-mist">
-              <h2 className="text-subheading font-semibold text-obsidian transition group-hover:text-graphite dark:text-snow">
+            <Card className="h-full transition duration-300 group-hover:-translate-y-0.5 group-hover:border-mist dark:group-hover:border-white/20">
+              <h2 className="text-subheading font-semibold text-obsidian transition group-hover:text-graphite dark:text-snow dark:group-hover:text-cloud">
                 {entry.meta.title}
               </h2>
               {entry.meta.description ? (
-                <p className="mt-2 text-[14px] text-steel">{entry.meta.description}</p>
+                <p className="mt-2 text-[14px] text-steel dark:text-ash">{entry.meta.description}</p>
               ) : null}
               <p className="mt-6 text-[13px] font-medium text-obsidian transition group-hover:translate-x-0.5 dark:text-snow">
                 Read →

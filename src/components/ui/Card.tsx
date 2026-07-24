@@ -8,8 +8,8 @@ type CardProps = {
 } & HTMLAttributes<HTMLDivElement>
 
 const tones = {
-  snow: 'border-cloud bg-snow',
-  subtle: 'border-cloud bg-surface-subtle',
+  snow: 'border-cloud bg-snow dark:border-white/10 dark:bg-surface-dark-raised',
+  subtle: 'border-cloud bg-surface-subtle dark:border-white/10 dark:bg-surface-dark',
   dark: 'border-transparent bg-surface-dark text-snow',
   deep: 'border-transparent bg-ink-slate text-snow',
 }

@@ -1,4 +1,5 @@
 import { AboutExperienceSection } from '@/components/home/AboutExperienceSection'
+import { FeaturedProjectsSection } from '@/components/home/FeaturedProjectsSection'
 import { StatsHighlightBar } from '@/components/home/StatsHighlightBar'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
@@ -54,7 +55,7 @@ const socials = [
   },
   {
     label: 'X',
-    href: 'https://x.com/nkrider7',
+    href: 'https://x.com/narendra_builds',
     icon: (
       <svg viewBox="0 0 24 24" className="h-4.5 w-4.5" fill="currentColor" aria-hidden>
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.717-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" />
@@ -63,7 +64,7 @@ const socials = [
   },
   {
     label: 'YouTube',
-    href: 'https://www.youtube.com/@nkrider7',
+    href: 'https://www.instagram.com/nkriderking/',
     icon: (
       <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden>
         <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186 31.247 31.247 0 0 0 0 12.02a31.247 31.247 0 0 0 .502 5.834 3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136A31.247 31.247 0 0 0 24 12.02a31.247 31.247 0 0 0-.502-5.834zM9.545 15.568V8.472l6.273 3.548-6.273 3.548z" />
@@ -217,6 +218,8 @@ export function HomePage() {
       <StatsHighlightBar />
 
       <AboutExperienceSection />
+
+      <FeaturedProjectsSection />
 
       {/* Explore cards */}
       <section className="space-y-6">

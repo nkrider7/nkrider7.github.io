@@ -24,9 +24,11 @@ export function MdxLayout({ title, description, children }: MdxLayoutProps) {
           <h1 className="text-heading-sm font-semibold tracking-tight text-obsidian dark:text-snow">
             {title}
           </h1>
-          {description ? <p className="text-[14px] text-steel">{description}</p> : null}
+          {description ? (
+            <p className="text-[14px] text-steel dark:text-ash">{description}</p>
+          ) : null}
         </header>
-        <article className="prose prose-neutral max-w-none dark:prose-invert prose-headings:scroll-mt-24 prose-headings:font-semibold prose-a:text-obsidian prose-li:marker:text-ember dark:prose-a:text-snow">
+        <article className="prose prose-neutral max-w-none dark:prose-invert prose-headings:scroll-mt-24 prose-headings:font-semibold prose-a:text-obsidian prose-li:marker:text-ember prose-pre:bg-paper prose-pre:text-graphite dark:prose-a:text-snow dark:prose-pre:bg-surface-dark dark:prose-pre:text-cloud dark:prose-code:text-cloud">
           {children}
         </article>
       </div>

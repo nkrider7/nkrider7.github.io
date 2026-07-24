@@ -11,7 +11,7 @@ export function LearningDocPage() {
     return (
       <Card>
         <h1 className="text-xl font-semibold text-obsidian dark:text-snow">Not found</h1>
-        <p className="mt-2 text-steel">No learning note matches this URL.</p>
+        <p className="mt-2 text-steel dark:text-ash">No learning note matches this URL.</p>
         <Link
           to="/learning"
           className="mt-4 inline-block text-[14px] font-medium text-obsidian dark:text-snow"
